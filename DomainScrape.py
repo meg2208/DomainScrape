@@ -58,7 +58,7 @@ def getDomains(word_by_freq, tlds):
 
 def getUnusedDomains(domainlist, minlimit = 1):
     domainlist.reverse()
-    done, finaldomainsW, finaldomainsNW = False, [], []
+    done, finaldomains = False, []
     minlim = datetime.now() + timedelta(minutes = minlimit)
     while not done and not tooLong(minlim, minlimit):
         if len(domainlist) <= 1:
@@ -70,13 +70,10 @@ def getUnusedDomains(domainlist, minlimit = 1):
         try:        
             socket.setdefaulttimeout(8)
             urlopen(req)
-    #    except urllib2.URLError or socket.timeout, e:
         except Exception, e:
             print e.reason
             if e.reason[0] == 61 and not tooLong(minlim, minlimit):
                 finaldomains.append(domain)
-    #        elif e.reason[0] == 8 and not tooLong(minlim, minlimit):
-    #            finaldomainsNW.append(domain)
     return finaldomains
 
 def tooLong(minlim, mins):
